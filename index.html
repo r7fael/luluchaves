@@ -194,6 +194,27 @@
         .anim-lado { animation: sair-lado 1s ease-in forwards; }
         .anim-espiral { animation: sair-espiral 1.2s ease-in-out forwards; }
         .anim-balao { animation: sair-balao 1s ease-in forwards; }
+
+        /* Confetes */
+        .confete {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 1000;
+            animation: cair-confete linear forwards;
+        }
+
+        @keyframes cair-confete {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -220,7 +241,7 @@
 
     <div id="etapa2" style="display: none;">
         <img src="lua2.jpeg" alt="Foto" class="foto" id="foto2">
-        <h1>ESSA É VOCÊ?</h1>
+        <h1>ESSA É VOCÊ LULU CHAVES?</h1>
         
         <div class="buttons">
             <button id="btn-sim2">SIM</button>
@@ -230,7 +251,7 @@
 
     <div id="etapa3" style="display: none;">
         <img src="lua1.jpeg" alt="Foto" class="foto" id="foto3">
-        <h1>ESSA É VOCÊ MESMO?</h1>
+        <h1>ESSA É VOCÊ 🫵🫵🫵 MESMO???? NÃO MINTA HEIN</h1>
         
         <div class="buttons">
             <button id="btn-sim3">SIM</button>
@@ -257,8 +278,8 @@
     </div>
 
     <div class="mensagem" id="mensagem">
-        <p>EU MESMO, RAFAEL PADILHA.</p>
-        <p style="margin-top: 10px; margin-bottom: 40px;">TE AMO, LULU CHAVES!!!!!!!!!!!!!!!!!!!!!!!!</p>
+        <p>EU MESMO, RAFAEL PADILHA</p>
+        <p style="margin-top: 10px; margin-bottom: 40px;">TE AMO MUUUUUUUITO, LULU CHAVES!!!!!!!!!!!!!!!!!!!!!!!!</p>
         <div class="carrossel" id="carrossel">
             <img src="casal1.jpeg" class="foto-carrossel ativa">
             <img src="casal2.jpeg" class="foto-carrossel">
@@ -385,6 +406,7 @@
         btnQuero.addEventListener('click', function() {
             etapa5.style.display = 'none';
             mensagem.style.display = 'block';
+            criarConfetes();
             iniciarCarrossel();
         });
 
@@ -404,6 +426,29 @@
                     fotos[fotoAtual].classList.add('ativa');
                 }, 800);
             }, 2000);
+        }
+
+        // Criar confetes infinitos
+        function criarConfetes() {
+            const cores = ['#ff69b4', '#00ffff', '#ffff00', '#ff6347', '#7fff00', '#ff1493', '#00ff7f', '#ffa500'];
+            const formas = ['circle', 'square'];
+            
+            setInterval(function() {
+                const confete = document.createElement('div');
+                confete.className = 'confete';
+                confete.style.left = Math.random() * 100 + 'vw';
+                confete.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+                confete.style.borderRadius = formas[Math.floor(Math.random() * formas.length)] === 'circle' ? '50%' : '0';
+                confete.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confete.style.width = (Math.random() * 10 + 5) + 'px';
+                confete.style.height = (Math.random() * 10 + 5) + 'px';
+                document.body.appendChild(confete);
+                
+                // Remover confete depois da animação
+                setTimeout(function() {
+                    confete.remove();
+                }, 5000);
+            }, 100);
         }
     </script>
 </body>
