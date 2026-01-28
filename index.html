@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você é Luana Chaves?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 5px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .foto {
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        #etapa2 {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #etapa3 {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #etapa4 {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #etapa5 {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #buttons4 {
+            position: relative;
+        }
+
+        #btn-nao4 {
+            position: relative;
+            transition: none;
+        }
+
+        .mensagem {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .coracao {
+            color: #ff69b4;
+            font-size: 3rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes girar-louco {
+            0% { transform: rotate(0deg) scale(1); opacity: 1; }
+            25% { transform: rotate(360deg) scale(1.5); }
+            50% { transform: rotate(720deg) scale(0.5); }
+            75% { transform: rotate(1080deg) scale(1.2); }
+            100% { transform: rotate(1440deg) scale(0) translateY(-200px); opacity: 0; }
+        }
+
+        @keyframes quicar-sumir {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            15% { transform: scale(1.3, 0.7) translateY(0); }
+            30% { transform: scale(0.8, 1.2) translateY(-100px); }
+            45% { transform: scale(1.2, 0.8) translateY(0); }
+            60% { transform: scale(0.9, 1.1) translateY(-150px) rotate(180deg); }
+            75% { transform: scale(1.1, 0.9) translateY(0) rotate(360deg); }
+            90% { transform: scale(0.5) translateY(-300px) rotate(720deg); }
+            100% { transform: scale(0) translateY(-500px) rotate(1080deg); opacity: 0; }
+        }
+
+        .animacao-girar {
+            animation: girar-louco 1.5s ease-in-out forwards;
+        }
+
+        .animacao-quicar {
+            animation: quicar-sumir 1.5s ease-in-out forwards;
+        }
+
+        .carrossel {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 0 auto 30px auto;
+            overflow: visible;
+        }
+
+        .carrossel img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            opacity: 0;
+        }
+
+        .carrossel img.ativa {
+            opacity: 1;
+        }
+
+        @keyframes sair-girar {
+            0% { transform: rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: rotate(720deg) scale(0); opacity: 0; }
+        }
+
+        @keyframes sair-foguete {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-800px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes sair-explodir {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        @keyframes sair-cair {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(800px) rotate(-180deg); opacity: 0; }
+        }
+
+        @keyframes sair-lado {
+            0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(-800px) rotate(-360deg); opacity: 0; }
+        }
+
+        @keyframes sair-espiral {
+            0% { transform: rotate(0deg) scale(1) translate(0, 0); opacity: 1; }
+            100% { transform: rotate(1080deg) scale(0) translate(200px, -200px); opacity: 0; }
+        }
+
+        @keyframes sair-balao {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            30% { transform: scale(1.3, 0.7); }
+            60% { transform: scale(0.8, 1.3) translateY(-100px); }
+            100% { transform: scale(0.5, 2) translateY(-600px); opacity: 0; }
+        }
+
+        .anim-girar { animation: sair-girar 1s ease-in forwards; }
+        .anim-foguete { animation: sair-foguete 1s ease-in forwards; }
+        .anim-explodir { animation: sair-explodir 0.8s ease-out forwards; }
+        .anim-cair { animation: sair-cair 1s ease-in forwards; }
+        .anim-lado { animation: sair-lado 1s ease-in forwards; }
+        .anim-espiral { animation: sair-espiral 1.2s ease-in-out forwards; }
+        .anim-balao { animation: sair-balao 1s ease-in forwards; }
+    </style>
+</head>
+<body>
+    <audio id="musica" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="inicio">
+        <h1>CLIQUE AQUI PRA TER MAIS IMERSÃO COM UMA MUSIQUINHA GOSTOSA DE FUNDO</h1>
+        
+        <div class="buttons">
+            <button id="btn-comecar">AQUI OH</button>
+        </div>
+    </div>
+
+    <div id="etapa1" style="display: none;">
+        <h1>VOCÊ É LUANA CHAVES?</h1>
+        
+        <div class="buttons">
+            <button id="btn-sim1">SIM</button>
+            <button id="btn-nao1">NÃO</button>
+        </div>
+    </div>
+
+    <div id="etapa2" style="display: none;">
+        <img src="lua2.jpeg" alt="Foto" class="foto" id="foto2">
+        <h1>ESSA É VOCÊ?</h1>
+        
+        <div class="buttons">
+            <button id="btn-sim2">SIM</button>
+            <button id="btn-nao2">NÃO</button>
+        </div>
+    </div>
+
+    <div id="etapa3" style="display: none;">
+        <img src="lua1.jpeg" alt="Foto" class="foto" id="foto3">
+        <h1>ESSA É VOCÊ MESMO?</h1>
+        
+        <div class="buttons">
+            <button id="btn-sim3">SIM</button>
+            <button id="btn-nao3">NÃO</button>
+        </div>
+    </div>
+
+    <div id="etapa4" style="display: none;">
+        <h1>OBAAA, ENTÃO TEM ALGUÉM PENSANDO EM VOCÊ, QUER DESCOBRIR QUEM É?</h1>
+        
+        <div class="buttons" id="buttons4">
+            <button id="btn-sim4">SIM</button>
+            <button id="btn-nao4">NÃO</button>
+        </div>
+    </div>
+
+    <div id="etapa5" style="display: none;">
+        <img src="eu.png" alt="Foto" class="foto">
+        <h1>TÁ BEM FÁCIL</h1>
+        
+        <div class="buttons">
+            <button id="btn-quero">QUERO SABER QUEM É</button>
+        </div>
+    </div>
+
+    <div class="mensagem" id="mensagem">
+        <p>EU MESMO, RAFAEL PADILHA.</p>
+        <p style="margin-top: 10px; margin-bottom: 40px;">TE AMO, LULU CHAVES!!!!!!!!!!!!!!!!!!!!!!!!</p>
+        <div class="carrossel" id="carrossel">
+            <img src="casal1.jpeg" class="foto-carrossel ativa">
+            <img src="casal2.jpeg" class="foto-carrossel">
+            <img src="casal3.jpeg" class="foto-carrossel">
+            <img src="casal4.jpeg" class="foto-carrossel">
+            <img src="casal5.jpeg" class="foto-carrossel">
+            <img src="casal6.jpeg" class="foto-carrossel">
+            <img src="casal7.jpeg" class="foto-carrossel">
+        </div>
+    </div>
+
+    <script>
+        // Música
+        const musica = document.getElementById('musica');
+
+        // Tela inicial
+        const inicio = document.getElementById('inicio');
+        const btnComecar = document.getElementById('btn-comecar');
+
+        btnComecar.addEventListener('click', function() {
+            musica.play();
+            inicio.style.display = 'none';
+            etapa1.style.display = 'block';
+        });
+
+        // Etapa 1
+        const btnSim1 = document.getElementById('btn-sim1');
+        const btnNao1 = document.getElementById('btn-nao1');
+        const etapa1 = document.getElementById('etapa1');
+        const etapa2 = document.getElementById('etapa2');
+        const etapa3 = document.getElementById('etapa3');
+        const mensagem = document.getElementById('mensagem');
+        const foto2 = document.getElementById('foto2');
+        const foto3 = document.getElementById('foto3');
+
+        let tamanho1 = 1;
+
+        btnNao1.addEventListener('click', function() {
+            tamanho1 += 0.3;
+            btnSim1.style.transform = `scale(${tamanho1})`;
+        });
+
+        btnSim1.addEventListener('click', function() {
+            etapa1.style.display = 'none';
+            etapa2.style.display = 'flex';
+        });
+
+        // Etapa 2
+        const btnSim2 = document.getElementById('btn-sim2');
+        const btnNao2 = document.getElementById('btn-nao2');
+
+        let tamanho2 = 1;
+
+        btnNao2.addEventListener('click', function() {
+            tamanho2 -= 0.1;
+            if (tamanho2 > 0.1) {
+                btnNao2.style.transform = `scale(${tamanho2})`;
+            }
+        });
+
+        btnSim2.addEventListener('click', function() {
+            foto2.classList.add('animacao-girar');
+            setTimeout(function() {
+                etapa2.style.display = 'none';
+                etapa3.style.display = 'flex';
+            }, 1500);
+        });
+
+        // Etapa 3
+        const btnSim3 = document.getElementById('btn-sim3');
+        const btnNao3 = document.getElementById('btn-nao3');
+
+        let tamanho3 = 1;
+
+        btnNao3.addEventListener('click', function() {
+            tamanho3 -= 0.1;
+            if (tamanho3 > 0.1) {
+                btnNao3.style.transform = `scale(${tamanho3})`;
+            }
+        });
+
+        btnSim3.addEventListener('click', function() {
+            foto3.classList.add('animacao-quicar');
+            setTimeout(function() {
+                etapa3.style.display = 'none';
+                etapa4.style.display = 'flex';
+            }, 1500);
+        });
+
+        // Etapa 4
+        const etapa4 = document.getElementById('etapa4');
+        const btnSim4 = document.getElementById('btn-sim4');
+        const btnNao4 = document.getElementById('btn-nao4');
+
+        const posicoes = [
+            { top: '-100px', left: '100px' },
+            { top: '50px', left: '-150px' },
+            { top: '-80px', left: '-100px' },
+            { top: '100px', left: '150px' },
+            { top: '-150px', left: '0px' },
+            { top: '80px', left: '-200px' },
+            { top: '-50px', left: '200px' },
+            { top: '120px', left: '50px' }
+        ];
+        let posicaoIndex = 0;
+
+        btnNao4.addEventListener('click', function() {
+            const pos = posicoes[posicaoIndex % posicoes.length];
+            btnNao4.style.position = 'relative';
+            btnNao4.style.top = pos.top;
+            btnNao4.style.left = pos.left;
+            posicaoIndex++;
+        });
+
+        btnSim4.addEventListener('click', function() {
+            etapa4.style.display = 'none';
+            etapa5.style.display = 'flex';
+        });
+
+        // Etapa 5
+        const etapa5 = document.getElementById('etapa5');
+        const btnQuero = document.getElementById('btn-quero');
+
+        btnQuero.addEventListener('click', function() {
+            etapa5.style.display = 'none';
+            mensagem.style.display = 'block';
+            iniciarCarrossel();
+        });
+
+        // Carrossel
+        const fotos = document.querySelectorAll('.foto-carrossel');
+        const animacoes = ['anim-girar', 'anim-foguete', 'anim-explodir', 'anim-cair', 'anim-lado', 'anim-espiral', 'anim-balao'];
+        let fotoAtual = 0;
+
+        function iniciarCarrossel() {
+            setInterval(function() {
+                const animAleatoria = animacoes[Math.floor(Math.random() * animacoes.length)];
+                fotos[fotoAtual].classList.add(animAleatoria);
+                
+                setTimeout(function() {
+                    fotos[fotoAtual].classList.remove('ativa', animAleatoria);
+                    fotoAtual = (fotoAtual + 1) % fotos.length;
+                    fotos[fotoAtual].classList.add('ativa');
+                }, 800);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
